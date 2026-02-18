@@ -16,7 +16,9 @@ async fn main() {
         .route("/", get(home))
         .nest_service("/assets", ServeDir::new("assets"));
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3002").await.unwrap();
-    println!("Listening on http://localhost:3002");
+    let port = std::env::var("PORT").unwrap_or_else(|_| "3001".to_string());
+    let addr = format!("0.0.0.0:{port}");
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    println!("Listening on http://localhost:{port}");
     axum::serve(listener, app).await.unwrap();
 }

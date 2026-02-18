@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meerkat — An agent engine you control</title>
+    <link rel="icon" type="image/png" href="/assets/meerkat-transparent.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --cream: #ece5da;
+    --cream-dark: #ddd5c8;
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --gray-100: #f4f4f5;
+    --gray-200: #e4e4e7;
+    --gray-400: #a1a1aa;
+    --gray-500: #71717a;
+    --gray-600: #52525b;
+    --accent: #c4654a;
+    --green: #16a34a;
+}
+
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--black);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+/* === HEADER === */
+header {
+    padding: 24px 0;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.logo-text {
+    display: inline;
+    word-spacing: 0;
+    letter-spacing: -0.02em;
+}
+
+.logo .logo-accent {
+    color: var(--accent);
+}
+
+.logo-icon {
+    height: 48px;
+    width: auto;
+}
+
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.header-links a {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+}
+
+.header-links a:hover { opacity: 0.7; }
+
+/* === HERO === */
+.hero {
+    padding: 40px 0 32px;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+}
+
+.hero h1 strong {
+    font-weight: 800;
+}
+
+.hero-subhead {
+    font-size: 18px;
+    color: var(--gray-600);
+    max-width: 700px;
+    margin: 0 auto 48px;
+    line-height: 1.7;
+}
+
+/* === TERMINAL GRID === */
+.device-section {
+    margin-bottom: 40px;
+}
+
+.device-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+}
+
+.terminal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.terminal-panel {
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1.5px solid #2a2a2a;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.terminal-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #252525;
+    border-bottom: 1px solid #333;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+}
+
+.terminal-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.6;
+}
+
+.terminal-body {
+    padding: 16px 20px;
+    font-family: 'SF Mono', Monaco, 'Consolas', monospace;
+    font-size: 12.5px;
+    line-height: 1.75;
+    color: #e4e4e7;
+    text-align: left;
+}
+
+.terminal-body .line { margin-bottom: 1px; }
+.t-comment { color: #71717a; }
+.t-cmd { color: #d4785e; }
+.t-key { color: #a1a1aa; }
+.t-val { color: #fafafa; }
+.t-ok { color: #22c55e; }
+.t-kw { color: #7dd3fc; }
+.t-str { color: #86efac; }
+.t-fn { color: #d4785e; }
+
+/* === MEERKAT VALUE === */
+.meerkat-value {
+    max-width: 680px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.meerkat-value p {
+    font-size: 16px;
+    color: var(--gray-600);
+    line-height: 1.7;
+}
+
+.meerkat-value strong {
+    color: var(--black);
+    font-weight: 600;
+}
+
+/* === CTAs === */
+.hero-cta {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.btn {
+    padding: 14px 28px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.15s;
+    cursor: pointer;
+    border: 1.5px solid #1a1a1a;
+    background: #f5f1eb;
+    color: var(--black);
+    position: relative;
+}
+
+/* Orange left accent bar */
+.btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background: var(--accent);
+}
+
+.btn-primary {
+    background: #f5f1eb;
+    color: var(--black);
+}
+
+.btn-outline {
+    background: #fdfcfa;
+    color: var(--black);
+}
+
+/* 3D extrusion shadow on hover */
+.btn:hover {
+    box-shadow:
+        4px 4px 0 0 var(--accent),
+        4px 4px 0 1px #1a1a1a;
+}
+
+.btn:hover::before {
+    opacity: 0;
+}
+
+/* === COMPAT TAGS === */
+.hero-compat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 64px;
+}
+
+.compat-label {
+    font-size: 14px;
+    color: var(--gray-500);
+    font-weight: 500;
+}
+
+.compat-tag {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+    background: var(--white);
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--cream-dark);
+}
+
+/* === QUOTES === */
+.quotes {
+    padding: 40px 0;
+    background: var(--white);
+    border-top: 1px solid var(--cream-dark);
+    border-bottom: 1px solid var(--cream-dark);
+}
+
+.quotes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.quote {
+    background: var(--white);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    margin-bottom: 16px;
+}
+
+/* Speech bubble tail */
+.quote::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    left: 24px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 12px solid var(--accent);
+}
+
+.quote::before {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 26px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid var(--white);
+    z-index: 1;
+}
+
+.quote p {
+    font-size: 15px;
+    color: var(--gray-600);
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.quote .author {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    display: block;
+    margin-top: 16px;
+}
+
+/* === FEATURES === */
+.features {
+    padding: 64px 0;
+    background: var(--cream);
+}
+
+.section-header {
+    margin-bottom: 40px;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 32px;
+    text-align: center;
+}
+
+.section-header h2 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    color: #1a365d;
+}
+
+.section-header p {
+    font-size: 16px;
+    color: var(--gray-600);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.feature-card {
+    background: #faf8f5;
+    border: 2.5px solid #1a1a1a;
+    border-radius: 16px 16px 16px 24px;
+    padding: 14px 16px 16px;
+    box-shadow:
+        5px 5px 0 0 var(--accent),
+        5px 5px 0 2px #1a1a1a;
+}
+
+.feature-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.feature-card h3 {
+    display: inline-block;
+    font-size: 15px;
+    font-weight: 700;
+    background: linear-gradient(180deg, #d4785e 0%, #b85a42 100%);
+    color: var(--white);
+    padding: 8px 18px;
+    border-radius: 20px;
+    margin: 0;
+    border: 1.5px solid #a04e38;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Toggle switch - ON state with white knob */
+.feature-toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    border: 2px solid #1a1a1a;
+    background: var(--accent);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.feature-toggle::after {
+    content: '';
+    position: absolute;
+    right: 3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+}
+
+.feature-card p {
+    font-size: 14px;
+    color: #2a2a2a;
+    line-height: 1.55;
+}
+
+.feature-card code {
+    background: #e8e3da;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'SF Mono', Monaco, 'Consolas', monospace;
+}
+
+/* === SURFACES === */
+.surfaces {
+    padding: 64px 0;
+    background: var(--white);
+    border-top: 1px solid var(--cream-dark);
+    border-bottom: 1px solid var(--cream-dark);
+}
+
+.surfaces-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.surface-card {
+    background: #faf8f5;
+    border: 1.5px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+}
+
+.surface-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.surface-card p {
+    font-size: 13px;
+    color: var(--gray-600);
+    line-height: 1.5;
+}
+
+/* === CODE BLOCK === */
+.code-section {
+    padding: 48px 0 64px;
+    background: var(--cream);
+}
+
+.code-block {
+    background: #1a1a1a;
+    border-radius: 16px;
+    padding: 28px 32px;
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'SF Mono', Monaco, 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #e4e4e7;
+    border: 1.5px solid #1a1a1a;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.code-block .line { margin-bottom: 2px; }
+
+/* === FOOTER === */
+footer {
+    padding: 32px 0;
+    background: var(--cream);
+    border-top: 1px solid var(--cream-dark);
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 32px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.footer-links a {
+    font-size: 14px;
+    color: var(--gray-500);
+    text-decoration: none;
+}
+
+.footer-links a:hover { color: var(--black); }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 32px; }
+    .terminal-grid { grid-template-columns: 1fr; }
+    .quotes-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .surfaces-grid { grid-template-columns: 1fr; }
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo"><img src="/assets/meerkat-transparent.png" alt="" class="logo-icon"><span class="logo-text">mee<span class="logo-accent">rkat</span></span></a>
+            <nav class="header-links">
+                <a href="https://docs.rkat.ai">Docs</a>
+                <a href="https://github.com/luka-crnkovic-friis/raik">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>An agent engine <strong>you control</strong></h1>
+            <p class="hero-subhead">
+                Claude Code and Codex CLI are brilliant for interactive software development. But agents do more than write code &mdash; they research, orchestrate, automate, and run unattended. Meerkat takes a different approach: SDK-first, stable APIs, modular Rust architecture designed for control, performance, and reliability.
+            </p>
+
+            <div class="device-section">
+                <div class="device-label">Meet Meerkat</div>
+                <div class="terminal-grid">
+                    <!-- CLI -->
+                    <div class="terminal-panel">
+                        <div class="terminal-tab"><span class="terminal-dot"></span>CLI</div>
+                        <div class="terminal-body">
+                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run "Analyze this dataset" \</span></div>
+                            <div class="line"><span class="t-val">&nbsp;&nbsp;&nbsp;&nbsp;--model gemini-3-pro --stream</span></div>
+                            <div class="line"></div>
+                            <div class="line"><span class="t-key">Session:</span> <span class="t-val">sid_7kf2a</span></div>
+                            <div class="line"><span class="t-key">Tools:</span> <span class="t-val">shell, 2 MCP servers</span></div>
+                            <div class="line"><span class="t-ok">&#x2713; Streaming response...</span></div>
+                        </div>
+                    </div>
+                    <!-- Python SDK -->
+                    <div class="terminal-panel">
+                        <div class="terminal-tab"><span class="terminal-dot"></span>Python SDK</div>
+                        <div class="terminal-body">
+                            <div class="line"><span class="t-kw">from</span> <span class="t-val">meerkat</span> <span class="t-kw">import</span> <span class="t-val">MeerkatClient</span></div>
+                            <div class="line"></div>
+                            <div class="line"><span class="t-val">client</span> = <span class="t-fn">MeerkatClient</span>()</div>
+                            <div class="line"><span class="t-kw">async with</span> <span class="t-val">client</span>.<span class="t-fn">stream</span>(</div>
+                            <div class="line">&nbsp;&nbsp;<span class="t-str">"Summarize quarterly reports"</span></div>
+                            <div class="line">) <span class="t-kw">as</span> <span class="t-val">stream</span>:</div>
+                            <div class="line">&nbsp;&nbsp;<span class="t-kw">async for</span> <span class="t-val">event</span> <span class="t-kw">in</span> <span class="t-val">stream</span>: ...</div>
+                        </div>
+                    </div>
+                    <!-- Rust SDK -->
+                    <div class="terminal-panel">
+                        <div class="terminal-tab"><span class="terminal-dot"></span>Rust SDK</div>
+                        <div class="terminal-body">
+                            <div class="line"><span class="t-kw">let</span> <span class="t-val">factory</span> = <span class="t-fn">AgentFactory</span>::<span class="t-fn">new</span>()</div>
+                            <div class="line">&nbsp;&nbsp;.<span class="t-fn">builtins</span>(<span class="t-kw">true</span>).<span class="t-fn">memory</span>(<span class="t-kw">true</span>);</div>
+                            <div class="line"><span class="t-kw">let mut</span> <span class="t-val">agent</span> = <span class="t-val">factory</span></div>
+                            <div class="line">&nbsp;&nbsp;.<span class="t-fn">build_agent</span>(<span class="t-val">config</span>).<span class="t-kw">await</span>?;</div>
+                            <div class="line"></div>
+                            <div class="line"><span class="t-kw">let</span> <span class="t-val">result</span> = <span class="t-val">agent</span></div>
+                            <div class="line">&nbsp;&nbsp;.<span class="t-fn">run</span>(<span class="t-str">"Deploy to staging"</span>).<span class="t-kw">await</span>?;</div>
+                        </div>
+                    </div>
+                    <!-- Multi-agent -->
+                    <div class="terminal-panel">
+                        <div class="terminal-tab"><span class="terminal-dot"></span>Multi-agent</div>
+                        <div class="terminal-body">
+                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run "Research and write report" \</span></div>
+                            <div class="line"><span class="t-val">&nbsp;&nbsp;&nbsp;&nbsp;--enable-subagents</span></div>
+                            <div class="line"></div>
+                            <div class="line"><span class="t-key">Spawned:</span> <span class="t-val">researcher (gpt-5.2)</span></div>
+                            <div class="line"><span class="t-key">Spawned:</span> <span class="t-val">writer (claude-sonnet-4-5)</span></div>
+                            <div class="line"><span class="t-key">Comms:</span> <span class="t-val">encrypted peer-to-peer</span></div>
+                            <div class="line"><span class="t-ok">&#x2713; 2 agents collaborating</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="meerkat-value">
+                    <p><strong>Library-first. Modular by design.</strong> Multi-provider LLMs, persistent sessions, tool dispatch with MCP, sub-agent orchestration, semantic memory, skills, hooks &mdash; pick the modules you need, skip the ones you don't. A family of Rust crates that compiles into a single binary, exposing whichever surfaces you choose: CLI, REST, JSON-RPC, MCP, Python, TypeScript, or native Rust.</p>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="#features" class="btn btn-primary">See the features</a>
+                <a href="https://github.com/luka-crnkovic-friis/raik" class="btn btn-outline">View on GitHub</a>
+            </div>
+
+            <div style="height: 40px;"></div>
+
+            <div class="hero-compat">
+                <span class="compat-label">Works with</span>
+                <span class="compat-tag">Anthropic</span>
+                <span class="compat-tag">OpenAI</span>
+                <span class="compat-tag">Gemini</span>
+                <span class="compat-tag">Python</span>
+                <span class="compat-tag">TypeScript</span>
+                <span class="compat-tag">Rust</span>
+                <span class="compat-tag">MCP</span>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="quotes">
+        <div class="device-label" style="text-align: center;">What the agents say...</div>
+        <div class="quotes-grid">
+            <div class="quote">
+                <p>"An engine I can embed anywhere without fighting a CLI abstraction."</p>
+                <span class="author">&mdash; Claude</span>
+            </div>
+            <div class="quote">
+                <p>"Same API yesterday, today, and tomorrow. That matters in production."</p>
+                <span class="author">&mdash; Codex</span>
+            </div>
+            <div class="quote">
+                <p>"Everything I need. Nothing I have to use."</p>
+                <span class="author">&mdash; Gemini</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2>Batteries included, assembly optional</h2>
+            <p>Meerkat ships with state-of-the-art agent capabilities out of the box. Every feature is a module &mdash; use them together for a full-stack agent platform, or cherry-pick the pieces that fit your architecture.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Multi-provider LLMs</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Anthropic, OpenAI, and Gemini through a single <code>AgentLlmClient</code> trait. Switch models by changing one config line. Streaming built in for all providers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Persistent sessions</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Create, turn, resume, archive. Sessions survive restarts. Context compaction keeps them within budget. Full lifecycle management across every surface.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Tool dispatch &amp; MCP</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Built-in tools, shell execution, and native MCP router for connecting external servers. Add tools with <code>rkat mcp add</code> and they're available instantly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Skills injection</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Domain knowledge from filesystem, git, HTTP, or embedded sources. Agents load skills on demand via <code>/skill-ref</code> syntax. No prompt bloat &mdash; inject what you need.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Semantic memory</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>HNSW vector indexing backed by redb. Cross-session knowledge retrieval. Agents remember what they learned without re-reading everything.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Sub-agents &amp; comms</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Spawn, fork, and coordinate child agents. Budget-isolated execution with encrypted peer-to-peer messaging. Hierarchical agent trees from a single entry point.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="surfaces">
+        <div class="section-header">
+            <h2>Seven surfaces, one engine</h2>
+            <p>One agent pipeline powers every surface. Embed Meerkat in your Rust binary, call it from Python or TypeScript, drive it over REST, or wire it into your IDE. Adding a new surface is just another adapter.</p>
+        </div>
+        <div class="surfaces-grid">
+            <div class="surface-card">
+                <h3>CLI</h3>
+                <p>Shell commands for developer workflows and scripting. <code>rkat run</code>, <code>rkat resume</code>.</p>
+            </div>
+            <div class="surface-card">
+                <h3>REST API</h3>
+                <p>HTTP/JSON for web services and microservices. Full streaming via SSE.</p>
+            </div>
+            <div class="surface-card">
+                <h3>JSON-RPC</h3>
+                <p>Stdio server for IDE integration. Stateful sessions with zero reconstruction overhead.</p>
+            </div>
+            <div class="surface-card">
+                <h3>MCP Server</h3>
+                <p>Expose Meerkat as tools for other LLMs. <code>meerkat_run</code> and <code>meerkat_resume</code>.</p>
+            </div>
+            <div class="surface-card">
+                <h3>Python SDK</h3>
+                <p>Async Python over RPC. <code>pip install meerkat-sdk</code>. Full streaming support.</p>
+            </div>
+            <div class="surface-card">
+                <h3>TypeScript SDK</h3>
+                <p>Node.js and TypeScript over RPC. <code>npm install @meerkat/sdk</code>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="code-section">
+        <div class="container">
+            <div class="device-label" style="text-align: center;">Get started in seconds</div>
+            <div class="code-block">
+                <div class="line"><span class="t-comment"># Install</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">cargo install rkat</span></div>
+                <div class="line"></div>
+                <div class="line"><span class="t-comment"># Run an agent</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run "Build a todo CLI" --stream</span></div>
+                <div class="line"></div>
+                <div class="line"><span class="t-comment"># Resume a session</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat resume sid_a8f3k2 "Add error handling"</span></div>
+                <div class="line"></div>
+                <div class="line"><span class="t-comment"># Add an MCP server</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mcp add github -- npx @github/mcp</span></div>
+                <div class="line"></div>
+                <div class="line"><span class="t-comment"># Start JSON-RPC for IDE integration</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat rpc</span></div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-inner">
+            <a href="/" class="footer-brand logo"><img src="/assets/meerkat-transparent.png" alt="" class="logo-icon"><span class="logo-text">mee<span class="logo-accent">rkat</span></span></a>
+            <nav class="footer-links">
+                <a href="https://github.com/luka-crnkovic-friis/raik">GitHub</a>
+                <a href="https://docs.rkat.ai">Documentation</a>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html>

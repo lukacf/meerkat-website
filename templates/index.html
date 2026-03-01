@@ -388,8 +388,8 @@ header {
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
     max-width: 960px;
     margin: 0 auto;
     padding: 0 32px;
@@ -399,7 +399,7 @@ header {
     background: #faf8f5;
     border: 2.5px solid #1a1a1a;
     border-radius: 16px 16px 16px 24px;
-    padding: 14px 16px 16px;
+    padding: 12px 14px 14px;
     box-shadow:
         5px 5px 0 0 var(--accent),
         5px 5px 0 2px #1a1a1a;
@@ -414,7 +414,7 @@ header {
 
 .feature-card h3 {
     display: inline-block;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     background: linear-gradient(180deg, #d4785e 0%, #b85a42 100%);
     color: var(--white);
@@ -560,6 +560,10 @@ footer {
 .footer-links a:hover { color: var(--black); }
 
 /* === RESPONSIVE === */
+@media (max-width: 900px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 768px) {
     .hero h1 { font-size: 32px; }
     .terminal-grid { grid-template-columns: 1fr; }
@@ -628,23 +632,25 @@ footer {
                             <div class="line">&nbsp;&nbsp;.<span class="t-fn">run</span>(<span class="t-str">"Deploy to staging"</span>).<span class="t-kw">await</span>?;</div>
                         </div>
                     </div>
-                    <!-- Multi-agent -->
+                    <!-- Mobs -->
                     <div class="terminal-panel">
-                        <div class="terminal-tab"><span class="terminal-dot"></span>Multi-agent</div>
+                        <div class="terminal-tab"><span class="terminal-dot"></span>Mobs</div>
                         <div class="terminal-body">
-                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run "Research and write report" \</span></div>
-                            <div class="line"><span class="t-val">&nbsp;&nbsp;&nbsp;&nbsp;--enable-subagents</span></div>
+                            <div class="line"><span class="t-comment"># mob.toml</span></div>
+                            <div class="line"><span class="t-key">[profiles.analyst]</span></div>
+                            <div class="line"><span class="t-val">model</span> = <span class="t-str">"claude-sonnet-4-5"</span></div>
+                            <div class="line"><span class="t-val">tools</span> = { <span class="t-val">shell</span> = <span class="t-kw">true</span> }</div>
+                            <div class="line"><span class="t-key">[profiles.writer]</span></div>
+                            <div class="line"><span class="t-val">model</span> = <span class="t-str">"gpt-5.2"</span></div>
                             <div class="line"></div>
-                            <div class="line"><span class="t-key">Spawned:</span> <span class="t-val">researcher (gpt-5.2)</span></div>
-                            <div class="line"><span class="t-key">Spawned:</span> <span class="t-val">writer (claude-sonnet-4-5)</span></div>
-                            <div class="line"><span class="t-key">Comms:</span> <span class="t-val">encrypted peer-to-peer</span></div>
-                            <div class="line"><span class="t-ok">&#x2713; 2 agents collaborating</span></div>
+                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob deploy mob.toml</span></div>
+                            <div class="line"><span class="t-ok">&#x2713; 2 agents wired, running</span></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="meerkat-value">
-                    <p><strong>Library-first. Modular by design.</strong> Multi-provider LLMs, persistent sessions, tool dispatch with MCP, sub-agent orchestration, semantic memory, skills, hooks &mdash; pick the modules you need, skip the ones you don't. A family of Rust crates that compiles into a single binary, exposing whichever surfaces you choose: CLI, REST, JSON-RPC, MCP, Python, TypeScript, or native Rust.</p>
+                    <p><strong>Library-first. Modular by design.</strong> Multi-provider LLMs, persistent sessions, tool dispatch with MCP, semantic memory, skills, hooks &mdash; pick the modules you need, skip the ones you don't. Orchestrate agent teams with <strong>mobs</strong>, package them as portable <strong>mobpacks</strong>, and deploy anywhere: CLI, REST, cloud, or browser via <strong>WASM</strong>.</p>
                 </div>
             </div>
 
@@ -664,6 +670,7 @@ footer {
                 <span class="compat-tag">TypeScript</span>
                 <span class="compat-tag">Rust</span>
                 <span class="compat-tag">MCP</span>
+                <span class="compat-tag">WASM</span>
             </div>
 
         </div>
@@ -673,15 +680,15 @@ footer {
         <div class="device-label" style="text-align: center;">What the agents say...</div>
         <div class="quotes-grid">
             <div class="quote">
-                <p>"An engine I can embed anywhere without fighting a CLI abstraction."</p>
+                <p>"Define a team in TOML, deploy it with one command. No YAML pipelines, no container orchestrators."</p>
                 <span class="author">&mdash; Claude</span>
             </div>
             <div class="quote">
-                <p>"Same API yesterday, today, and tomorrow. That matters in production."</p>
+                <p>"One .mobpack runs everywhere &mdash; native binary, browser, cloud. Same checkpoint format."</p>
                 <span class="author">&mdash; Codex</span>
             </div>
             <div class="quote">
-                <p>"Everything I need. Nothing I have to use."</p>
+                <p>"Full agent stack in the browser at 1MB. Start a mob in Chrome, resume it on a server."</p>
                 <span class="author">&mdash; Gemini</span>
             </div>
         </div>
@@ -735,6 +742,27 @@ footer {
                 </div>
                 <p>Spawn, fork, and coordinate child agents. Budget-isolated execution with encrypted peer-to-peer messaging. Hierarchical agent trees from a single entry point.</p>
             </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Mobs</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Multi-agent orchestration with profiles, wiring graphs, and DAG-based flows. Ed25519-signed peer messaging. Define a team in TOML, deploy with one command.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Mobpacks</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Portable deployment artifacts. A compiler pipeline: definition &rarr; <code>.mobpack</code> &rarr; interpret, embed, compile, or target WASM. Signed, verified, deterministic.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>WASM runtime</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Full agent stack compiled to wasm32 for the browser. Same engine, same mobs, same checkpoint format. Start in the browser, resume natively.</p>
+            </div>
         </div>
     </section>
 
@@ -744,6 +772,10 @@ footer {
             <p>One agent pipeline powers every surface. Embed Meerkat in your Rust binary, call it from Python or TypeScript, drive it over REST, or wire it into your IDE. Adding a new surface is just another adapter.</p>
         </div>
         <div class="surfaces-grid">
+            <div class="surface-card">
+                <h3>Rust crate</h3>
+                <p>Direct library API. <code>AgentFactory::build_agent()</code>. Zero overhead, full control.</p>
+            </div>
             <div class="surface-card">
                 <h3>CLI</h3>
                 <p>Shell commands for developer workflows and scripting. <code>rkat run</code>, <code>rkat resume</code>.</p>
@@ -787,8 +819,11 @@ footer {
                 <div class="line"><span class="t-comment"># Add an MCP server</span></div>
                 <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mcp add github -- npx @github/mcp</span></div>
                 <div class="line"></div>
-                <div class="line"><span class="t-comment"># Start JSON-RPC for IDE integration</span></div>
-                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat rpc</span></div>
+                <div class="line"><span class="t-comment"># Deploy a mob</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob deploy research-team.mobpack</span></div>
+                <div class="line"></div>
+                <div class="line"><span class="t-comment"># Build for the browser</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob web build release-triage.mobpack</span></div>
             </div>
         </div>
     </section>

@@ -42,12 +42,22 @@ jobs:
           docker push $IMAGE:latest
 
       - name: Deploy to Cloud Run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
+          cat > /tmp/env.yaml <<ENVEOF
+          PROXY_URL: "https://rkat.ai/api/llm"
+          ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY}"
+          OPENAI_API_KEY: "${OPENAI_API_KEY}"
+          GEMINI_API_KEY: "${GEMINI_API_KEY}"
+          ENVEOF
           gcloud run deploy $SERVICE \
             --image $IMAGE:${{ github.sha }} \
             --region $REGION \
             --project $PROJECT_ID \
             --allow-unauthenticated \
             --port 8080 \
-            --update-env-vars "PROXY_URL=https://rkat.ai/api/llm,ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }},OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }},GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}" \
+            --env-vars-file /tmp/env.yaml \
             --quiet

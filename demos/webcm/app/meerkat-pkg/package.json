@@ -1,0 +1,30 @@
+{
+  "name": "meerkat-web-runtime",
+  "type": "module",
+  "collaborators": [
+    "Luka Crnkovic-Friis"
+  ],
+  "version": "0.4.1",
+  "license": "MIT OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lukacf/meerkat"
+  },
+  "files": [
+    "meerkat_web_runtime_bg.wasm",
+    "meerkat_web_runtime.js",
+    "meerkat_web_runtime.d.ts"
+  ],
+  "main": "meerkat_web_runtime.js",
+  "homepage": "https://docs.rkat.ai",
+  "types": "meerkat_web_runtime.d.ts",
+  "sideEffects": [
+    "./snippets/*"
+  ],
+  "keywords": [
+    "agent",
+    "llm",
+    "ai",
+    "meerkat"
+  ]
+}

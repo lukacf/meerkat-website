@@ -109,6 +109,8 @@ cp -r public/* "$WEBCM/" 2>/dev/null || true
 mkdir -p "$WEBCM/meerkat-pkg"
 cp "$WASM_PKG/meerkat_web_runtime.js" "$WEBCM/meerkat-pkg/meerkat_web_runtime.js"
 cp "$WASM_PKG/meerkat_web_runtime_bg.wasm" "$WEBCM/meerkat-pkg/meerkat_web_runtime_bg.wasm"
+# Remove npm package's .gitignore that would exclude these files from git
+rm -f "$WEBCM/meerkat-pkg/.gitignore"
 
 # Fix absolute URLs to relative (Vite builds with base="/")
 WEBCM_BUNDLE="$WEBCM/assets/"index-*.js

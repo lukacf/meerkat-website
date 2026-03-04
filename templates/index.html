@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meerkat — An agent engine you control</title>
-    <link rel="icon" type="image/png" href="/assets/meerkat-transparent.png">
+    <meta name="description" content="SDK-first agent engine with multi-provider LLMs, persistent sessions, mobs, mobpacks, and a full WASM runtime. Rust core, Python and TypeScript SDKs.">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Meerkat — An agent engine you control">
+    <meta property="og:description" content="SDK-first agent engine with multi-provider LLMs, persistent sessions, mobs, mobpacks, and a full WASM runtime.">
+    <meta property="og:image" content="https://rkat.ai/assets/og-image.png">
+    <meta property="og:url" content="https://rkat.ai">
+    <meta property="og:type" content="website">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Meerkat — An agent engine you control">
+    <meta name="twitter:description" content="SDK-first agent engine with multi-provider LLMs, persistent sessions, mobs, mobpacks, and a full WASM runtime.">
+    <meta name="twitter:image" content="https://rkat.ai/assets/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -498,6 +510,12 @@ header {
     transform: translate(-2px, -2px);
 }
 
+.demo-thumb {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 14px;
+}
+
 .demo-card h3 {
     font-size: 18px;
     font-weight: 700;
@@ -749,20 +767,22 @@ footer {
     <section class="demos">
         <div class="section-header">
             <h2>Try it in your browser</h2>
-            <p>No install, no API keys. These demos run the full Meerkat WASM runtime in your browser with server-provided LLM access.</p>
+            <p>Autonomous agent teams running entirely in your browser. No backend, no containers &mdash; just WebAssembly and live LLM calls.</p>
         </div>
         <div class="demos-grid">
-            <a href="/demos/diplomacy/" class="demo-card">
-                <span class="demo-tag">WASM + Mobs</span>
-                <h3>Mini Diplomacy Arena</h3>
-                <p>Three European powers contest 12 territories. Each faction deploys 3 autonomous agents (planner, operator, ambassador) that strategize, negotiate, and betray through real-time comms.</p>
-                <span class="demo-stats">9 agents &middot; 4 mobs &middot; cross-mob comms &middot; structured output</span>
-            </a>
             <a href="/demos/webcm/" class="demo-card">
+                <img src="/assets/demo-webcm.png" alt="WebCM demo" class="demo-thumb">
                 <span class="demo-tag">WASM + WebCM</span>
                 <h3>Browser Coding Agent</h3>
                 <p>A 4-agent coding mob (orchestrator, planner, coder, reviewer) with access to a sandboxed Alpine Linux VM running entirely in WebAssembly. Give it a task and watch the team build software.</p>
                 <span class="demo-stats">4 agents &middot; Linux VM &middot; multi-provider &middot; real shell access</span>
+            </a>
+            <a href="/demos/diplomacy/" class="demo-card">
+                <img src="/assets/demo-diplomacy.png" alt="Diplomacy demo" class="demo-thumb">
+                <span class="demo-tag">WASM + Mobs</span>
+                <h3>Mini Diplomacy Arena</h3>
+                <p>Three European powers contest 12 territories. Each faction deploys 3 autonomous agents (planner, operator, ambassador) that strategize, negotiate, and betray through real-time comms.</p>
+                <span class="demo-stats">9 agents &middot; 4 mobs &middot; cross-mob comms &middot; structured output</span>
             </a>
         </div>
     </section>

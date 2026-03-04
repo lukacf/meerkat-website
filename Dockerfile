@@ -10,5 +10,6 @@ RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/
 COPY --from=builder /app/target/release/meerkat-website /app/meerkat-website
 COPY --from=builder /app/assets /app/assets
 COPY --from=builder /app/templates /app/templates
+COPY --from=builder /app/demos /app/demos
 WORKDIR /app
 CMD ["./meerkat-website"]

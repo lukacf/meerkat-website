@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Diplomacy Arena — Meerkat WASM Demo</title>
+    <link rel="icon" type="image/png" href="/assets/meerkat-transparent.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --cream: #ece5da;
+    --cream-dark: #ddd5c8;
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --gray-500: #71717a;
+    --gray-600: #52525b;
+    --accent: #c4654a;
+}
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--cream);
+    color: var(--black);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+header {
+    padding: 16px 0;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--cream-dark);
+}
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--black);
+}
+.logo-accent { color: var(--accent); }
+.logo-icon { height: 36px; width: auto; }
+.nav-links { display: flex; align-items: center; gap: 24px; }
+.nav-links a {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+}
+.nav-links a:hover { opacity: 0.7; }
+.demo-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    background: linear-gradient(180deg, #d4785e 0%, #b85a42 100%);
+    color: var(--white);
+    padding: 4px 12px;
+    border-radius: 16px;
+    border: 1px solid #a04e38;
+}
+.demo-header {
+    padding: 16px 0 12px;
+    flex-shrink: 0;
+}
+.demo-header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.demo-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+.demo-header p {
+    font-size: 14px;
+    color: var(--gray-600);
+}
+.demo-frame-wrap {
+    flex: 1;
+    padding: 0 24px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    min-height: 0;
+}
+.demo-frame {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--black);
+    border-radius: 12px;
+    overflow: hidden;
+    background: #2a2218;
+}
+.demo-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo"><img src="/assets/meerkat-transparent.png" alt="" class="logo-icon"><span>mee<span class="logo-accent">rkat</span></span></a>
+            <nav class="nav-links">
+                <span class="demo-tag">WASM Demo</span>
+                <a href="/">Home</a>
+                <a href="https://docs.rkat.ai">Docs</a>
+                <a href="https://github.com/lukacf/meerkat">GitHub</a>
+            </nav>
+        </div>
+    </header>
+    <div class="demo-header">
+        <div class="demo-header-inner">
+            <div>
+                <h1>Mini Diplomacy Arena</h1>
+                <p>9 autonomous AI agents &middot; 3 factions &middot; 4 mobs &middot; cross-mob comms &middot; all running in your browser via WASM</p>
+            </div>
+        </div>
+    </div>
+    <div class="demo-frame-wrap">
+        <div class="demo-frame">
+            {% if !proxy_url.is_empty() %}
+            <iframe src="/demos/diplomacy/app/?proxy={{ proxy_url }}&france={{ france }}&prussia={{ prussia }}&russia={{ russia }}&narrator={{ narrator }}" allow="cross-origin-isolated"></iframe>
+            {% else %}
+            <iframe src="/demos/diplomacy/app/" allow="cross-origin-isolated"></iframe>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

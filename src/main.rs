@@ -147,6 +147,13 @@ struct DemoWebcmPage {
     reviewer: String,
 }
 
+#[derive(Template)]
+#[template(path = "demo_office.html")]
+struct DemoOfficePage {
+    proxy_url: String,
+    model: String,
+}
+
 async fn home() -> Html<String> {
     Html(HomePage.render().unwrap())
 }
@@ -170,6 +177,14 @@ async fn demo_webcm(State(state): State<AppState>) -> Html<String> {
         planner: m[1].to_string(),
         coder: m[2].to_string(),
         reviewer: m[3].to_string(),
+    }.render().unwrap())
+}
+
+async fn demo_office(State(state): State<AppState>) -> Html<String> {
+    let m = pick_models(&state, 1);
+    Html(DemoOfficePage {
+        proxy_url: state.proxy_url.clone(),
+        model: m[0].to_string(),
     }.render().unwrap())
 }
 
@@ -469,8 +484,8 @@ async fn wasm_headers(req: axum::http::Request<Body>, next: Next) -> impl IntoRe
         headers.insert("cache-control", "no-store".parse().unwrap());
     }
 
-    // WebCM needs cross-origin isolation for SharedArrayBuffer
-    if path.starts_with("/demos/webcm/") {
+    // WebCM and Office need cross-origin isolation for SharedArrayBuffer
+    if path.starts_with("/demos/webcm/") || path.starts_with("/demos/office/") {
         headers.insert("cross-origin-opener-policy", "same-origin".parse().unwrap());
         headers.insert("cross-origin-embedder-policy", "require-corp".parse().unwrap());
     }
@@ -523,6 +538,8 @@ async fn main() {
         .route("/demos/diplomacy/", get(demo_diplomacy))
         .route("/demos/webcm", get(demo_webcm))
         .route("/demos/webcm/", get(demo_webcm))
+        .route("/demos/office", get(demo_office))
+        .route("/demos/office/", get(demo_office))
         // LLM proxy (handler checks for OPTIONS internally)
         .route("/api/llm/{provider}/{*path}", any(llm_proxy))
         .route("/api/llm/{provider}", any(llm_proxy_root))
@@ -532,6 +549,8 @@ async fn main() {
             ServeDir::new("demos/diplomacy/app").precompressed_gzip())
         .nest_service("/demos/webcm/app",
             ServeDir::new("demos/webcm/app").precompressed_gzip())
+        .nest_service("/demos/office/app",
+            ServeDir::new("demos/office/app").precompressed_gzip())
         .layer(middleware::from_fn(wasm_headers))
         .with_state(state);
 

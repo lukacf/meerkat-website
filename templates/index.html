@@ -485,11 +485,15 @@ header {
 
 .demos-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     max-width: 960px;
     margin: 0 auto;
     padding: 0 32px;
+}
+
+@media (max-width: 900px) {
+    .demos-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 .demo-card {
@@ -776,6 +780,13 @@ footer {
                 <h3>Browser Coding Agent</h3>
                 <p>A 4-agent coding mob (orchestrator, planner, coder, reviewer) with access to a sandboxed Alpine Linux VM running entirely in WebAssembly. Give it a task and watch the team build software.</p>
                 <span class="demo-stats">4 agents &middot; Linux VM &middot; multi-provider &middot; real shell access</span>
+            </a>
+            <a href="/demos/office/" class="demo-card">
+                <img src="/assets/demo-office.png" alt="The Office demo" class="demo-thumb">
+                <span class="demo-tag">WASM + Mobs</span>
+                <h3>The Office</h3>
+                <p>10 autonomous agents in a pixel-art office. Mail arrives, gets triaged, routed to departments, escalated through approval gates, and archived as structured knowledge &mdash; all through peer-to-peer comms.</p>
+                <span class="demo-stats">10 agents &middot; event routing &middot; approval gates &middot; knowledge graph</span>
             </a>
             <a href="/demos/diplomacy/" class="demo-card">
                 <img src="/assets/demo-diplomacy.png" alt="Diplomacy demo" class="demo-thumb">

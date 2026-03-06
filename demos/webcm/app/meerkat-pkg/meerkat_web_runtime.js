@@ -112,6 +112,22 @@ export class IntoUnderlyingSource {
 if (Symbol.dispose) IntoUnderlyingSource.prototype[Symbol.dispose] = IntoUnderlyingSource.prototype.free;
 
 /**
+ * Append runtime system context to a direct session handle.
+ * @param {number} handle
+ * @param {string} request_json
+ * @returns {any}
+ */
+export function append_system_context(handle, request_json) {
+    const ptr0 = passStringToWasm0(request_json, wasm.__wbindgen_malloc_command_export, wasm.__wbindgen_realloc_command_export);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.append_system_context(handle, ptr0, len0);
+    if (ret[2]) {
+        throw takeFromExternrefTable0(ret[1]);
+    }
+    return takeFromExternrefTable0(ret[0]);
+}
+
+/**
  * Clear all registered tool callbacks.
  */
 export function clear_tool_callbacks() {
@@ -273,6 +289,24 @@ export function inspect_mobpack(mobpack_bytes) {
     } finally {
         wasm.__wbindgen_free_command_export(deferred3_0, deferred3_1, 1);
     }
+}
+
+/**
+ * Append runtime system context to an individual mob member's session.
+ * @param {string} mob_id
+ * @param {string} meerkat_id
+ * @param {string} request_json
+ * @returns {Promise<any>}
+ */
+export function mob_append_system_context(mob_id, meerkat_id, request_json) {
+    const ptr0 = passStringToWasm0(mob_id, wasm.__wbindgen_malloc_command_export, wasm.__wbindgen_realloc_command_export);
+    const len0 = WASM_VECTOR_LEN;
+    const ptr1 = passStringToWasm0(meerkat_id, wasm.__wbindgen_malloc_command_export, wasm.__wbindgen_realloc_command_export);
+    const len1 = WASM_VECTOR_LEN;
+    const ptr2 = passStringToWasm0(request_json, wasm.__wbindgen_malloc_command_export, wasm.__wbindgen_realloc_command_export);
+    const len2 = WASM_VECTOR_LEN;
+    const ret = wasm.mob_append_system_context(ptr0, len0, ptr1, len1, ptr2, len2);
+    return ret;
 }
 
 /**
@@ -641,6 +675,49 @@ export function poll_subscription(handle) {
         return getStringFromWasm0(ptr1, len1);
     } finally {
         wasm.__wbindgen_free_command_export(deferred2_0, deferred2_1, 1);
+    }
+}
+
+/**
+ * Register a fire-and-forget tool from JavaScript.
+ *
+ * Call this BEFORE `init_runtime` or `init_runtime_from_config`.
+ * When the agent calls this tool, `dispatch()` returns `"acknowledged"`
+ * immediately and the agent loop continues without waiting.
+ *
+ * The host should watch `ToolCallRequested` events in the event stream to
+ * capture the tool call arguments and act on them asynchronously. Any
+ * response (e.g. human approval) should be sent back via `mob_send_message`.
+ *
+ * Example (JS):
+ * ```js
+ * register_js_tool(
+ *   "request_human_approval",
+ *   "Escalate a high-risk action for human sign-off",
+ *   JSON.stringify({
+ *     type: "object",
+ *     properties: {
+ *       summary: { type: "string" },
+ *       risk_level: { type: "string", enum: ["low", "medium", "high"] },
+ *     },
+ *     required: ["summary", "risk_level"],
+ *   }),
+ * );
+ * ```
+ * @param {string} name
+ * @param {string} description
+ * @param {string} schema_json
+ */
+export function register_js_tool(name, description, schema_json) {
+    const ptr0 = passStringToWasm0(name, wasm.__wbindgen_malloc_command_export, wasm.__wbindgen_realloc_command_export);
+    const len0 = WASM_VECTOR_LEN;
+    const ptr1 = passStringToWasm0(description, wasm.__wbindgen_malloc_command_export, wasm.__wbindgen_realloc_command_export);
+    const len1 = WASM_VECTOR_LEN;
+    const ptr2 = passStringToWasm0(schema_json, wasm.__wbindgen_malloc_command_export, wasm.__wbindgen_realloc_command_export);
+    const len2 = WASM_VECTOR_LEN;
+    const ret = wasm.register_js_tool(ptr0, len0, ptr1, len1, ptr2, len2);
+    if (ret[1]) {
+        throw takeFromExternrefTable0(ret[0]);
     }
 }
 
@@ -1203,17 +1280,17 @@ function __wbg_get_imports() {
             return isLikeNone(ret) ? 0 : addToExternrefTable0(ret);
         },
         __wbindgen_cast_0000000000000001: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { dtor_idx: 1481, function: Function { arguments: [], shim_idx: 1482, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { dtor_idx: 1489, function: Function { arguments: [], shim_idx: 1490, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm.wasm_bindgen__closure__destroy__hb87c6a2b7693073e, wasm_bindgen__convert__closures_____invoke__hc484b96269102350);
             return ret;
         },
         __wbindgen_cast_0000000000000002: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { dtor_idx: 3799, function: Function { arguments: [], shim_idx: 3800, ret: Unit, inner_ret: Some(Unit) }, mutable: false }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { dtor_idx: 3812, function: Function { arguments: [], shim_idx: 3813, ret: Unit, inner_ret: Some(Unit) }, mutable: false }) -> Externref`.
             const ret = makeClosure(arg0, arg1, wasm.wasm_bindgen__closure__destroy__h17256c949385a6eb, wasm_bindgen__convert__closures_____invoke__h308d3c0b30a9202d);
             return ret;
         },
         __wbindgen_cast_0000000000000003: function(arg0, arg1) {
-            // Cast intrinsic for `Closure(Closure { dtor_idx: 3817, function: Function { arguments: [Externref], shim_idx: 3818, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+            // Cast intrinsic for `Closure(Closure { dtor_idx: 3830, function: Function { arguments: [Externref], shim_idx: 3831, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
             const ret = makeMutClosure(arg0, arg1, wasm.wasm_bindgen__closure__destroy__h824973ba58a55617, wasm_bindgen__convert__closures_____invoke__hf6fd50a67b85890f);
             return ret;
         },

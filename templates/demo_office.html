@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Office — Meerkat WASM Demo</title>
+    <meta name="description" content="10 autonomous AI agents in a pixel-art office — event routing, approval gates, knowledge graphs — running entirely in your browser via WebAssembly.">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <meta property="og:title" content="The Office — Meerkat WASM Demo">
+    <meta property="og:description" content="10 autonomous AI agents in a pixel-art office — running entirely in your browser via WebAssembly.">
+    <meta property="og:image" content="https://rkat.ai/assets/og-image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+    --cream: #ece5da;
+    --cream-dark: #ddd5c8;
+    --black: #1a1a1a;
+    --white: #ffffff;
+    --gray-500: #71717a;
+    --gray-600: #52525b;
+    --accent: #c4654a;
+}
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--black);
+    color: var(--black);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+header {
+    padding: 10px 0;
+    flex-shrink: 0;
+    background: var(--cream);
+    border-bottom: 1px solid var(--cream-dark);
+}
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    color: var(--black);
+}
+.logo-accent { color: var(--accent); }
+.logo-icon { height: 30px; width: auto; }
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--black);
+    text-decoration: none;
+}
+.nav-links a:hover { opacity: 0.7; }
+.demo-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    background: linear-gradient(180deg, #d4785e 0%, #b85a42 100%);
+    color: var(--white);
+    padding: 3px 10px;
+    border-radius: 16px;
+    border: 1px solid #a04e38;
+}
+.demo-frame-wrap {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    min-height: 0;
+}
+.demo-frame {
+    width: 100%;
+    max-width: 1100px;
+    height: 100%;
+}
+.demo-frame iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo"><img src="/assets/meerkat-transparent.png" alt="" class="logo-icon"><span>mee<span class="logo-accent">rkat</span></span></a>
+            <nav class="nav-links">
+                <span class="demo-tag">WASM Demo</span>
+                <a href="/">Home</a>
+                <a href="https://docs.rkat.ai">Docs</a>
+                <a href="https://github.com/lukacf/meerkat">GitHub</a>
+            </nav>
+        </div>
+    </header>
+    <div class="demo-frame-wrap">
+        <div class="demo-frame">
+            {% if !proxy_url.is_empty() %}
+            <iframe src="/demos/office/app/?proxy={{ proxy_url }}&model={{ model }}" allow="cross-origin-isolated"></iframe>
+            {% else %}
+            <iframe src="/demos/office/app/" allow="cross-origin-isolated"></iframe>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

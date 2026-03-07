@@ -181,10 +181,11 @@ async fn demo_webcm(State(state): State<AppState>) -> Html<String> {
 }
 
 async fn demo_office(State(state): State<AppState>) -> Html<String> {
-    let m = pick_models(&state, 1);
+    let hourly = current_hourly_requests(&state);
+    let model = if hourly < HOURLY_SOFT_CAP { "claude-opus-4-6" } else { "claude-haiku-4-5" };
     Html(DemoOfficePage {
         proxy_url: state.proxy_url.clone(),
-        model: m[0].to_string(),
+        model: model.to_string(),
     }.render().unwrap())
 }
 
@@ -350,7 +351,13 @@ async fn llm_proxy_inner(
     // Rate limit
     let ip = client_ip(&req);
     if let Err(resp) = check_rate_limit(&state, ip) {
+        let count = state.hourly_requests.load(Ordering::Relaxed);
+        eprintln!("RATE LIMITED: ip={ip} hourly={count} provider={provider} path={path}");
         return resp;
+    }
+    let count = state.hourly_requests.load(Ordering::Relaxed);
+    if count % 50 == 0 {
+        eprintln!("Proxy request #{count}: {provider}/{path}");
     }
 
     // Build target URL

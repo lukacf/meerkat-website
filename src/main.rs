@@ -68,7 +68,7 @@ struct AppState {
     hour_start: Arc<std::sync::Mutex<Instant>>,
 }
 
-const RATE_LIMIT_PER_HOUR: u32 = 500;
+const RATE_LIMIT_PER_HOUR: u32 = 5_000;  // per IP
 const DAILY_REQUEST_CAP: u64 = 50_000;  // ~$1500 at ~$0.03/req
 const HOURLY_SOFT_CAP: u64 = 3_000;     // ~$100/hr → switch to cheap models
 
@@ -487,7 +487,10 @@ async fn wasm_headers(req: axum::http::Request<Body>, next: Next) -> impl IntoRe
     }
 
     // Unhashed demo files (runtime.js, .wasm) — never use stale cache
-    if path.starts_with("/demos/") && !path.contains("/assets/") {
+    // But allow caching for images (sprites, backgrounds)
+    if path.starts_with("/demos/") && !path.contains("/assets/")
+        && !path.ends_with(".png") && !path.ends_with(".jpg") && !path.ends_with(".svg")
+    {
         headers.insert("cache-control", "no-store".parse().unwrap());
     }
 

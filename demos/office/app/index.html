@@ -7,6 +7,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+    /* Center the splash screen */
+    .start-overlay { align-items: center !important; justify-content: center !important; }
+    .start-content { text-align: center !important; }
+    /* Hide the API key hint since proxy handles it */
+    .start-hint { display: none !important; }
+    </style>
+    <!-- Preload heavy assets before JS executes -->
+    <link rel="preload" href="./office-bg.png" as="image" />
+    <link rel="preload" href="./meerkat-pkg/meerkat_web_runtime_bg.wasm" as="fetch" crossorigin />
+    <script>
+    // Eagerly cache all 120 sprites before main module runs
+    var c=['triage','it-dept','hr-dept','facilities','finance','alex-pa','sam-pa','pat-pa','gate','archivist'];
+    c.forEach(function(n){['typing','phone'].forEach(function(a){for(var i=0;i<6;i++){new Image().src='./sprites/'+n+'_'+a+'_0'+i+'.png'}})});
+    </script>
     <script type="module" crossorigin src="./assets/index-BlU5Ws0c.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-DawluX6k.css">
   </head>

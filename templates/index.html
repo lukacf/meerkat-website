@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meerkat — An agent engine you control</title>
-    <meta name="description" content="SDK-first agent engine with multi-provider LLMs, persistent sessions, mobs, mobpacks, and a full WASM runtime. Rust core, Python and TypeScript SDKs.">
+    <title>Meerkat — Runtime for agent systems</title>
+    <meta name="description" content="Library-first agent runtime with realm-scoped sessions, mobs, WorkGraph, scheduling, live channels, auth bindings, and CLI, REST, RPC, MCP, SDK, and WASM surfaces.">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <!-- Open Graph -->
-    <meta property="og:title" content="Meerkat — An agent engine you control">
-    <meta property="og:description" content="SDK-first agent engine with multi-provider LLMs, persistent sessions, mobs, mobpacks, and a full WASM runtime.">
+    <meta property="og:title" content="Meerkat — Runtime for agent systems">
+    <meta property="og:description" content="Durable sessions, mobs, WorkGraph, scheduling, live channels, and every host surface on one shared runtime.">
     <meta property="og:image" content="https://rkat.ai/assets/og-image.png">
     <meta property="og:url" content="https://rkat.ai">
     <meta property="og:type" content="website">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Meerkat — An agent engine you control">
-    <meta name="twitter:description" content="SDK-first agent engine with multi-provider LLMs, persistent sessions, mobs, mobpacks, and a full WASM runtime.">
+    <meta name="twitter:title" content="Meerkat — Runtime for agent systems">
+    <meta name="twitter:description" content="Durable sessions, mobs, WorkGraph, scheduling, live channels, and every host surface on one shared runtime.">
     <meta name="twitter:image" content="https://rkat.ai/assets/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -310,7 +310,7 @@ header {
 
 .quotes-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     max-width: 960px;
     margin: 0 auto;
@@ -485,14 +485,14 @@ header {
 
 .demos-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     max-width: 960px;
     margin: 0 auto;
     padding: 0 32px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     .demos-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -654,6 +654,7 @@ footer {
 /* === RESPONSIVE === */
 @media (max-width: 900px) {
     .features-grid { grid-template-columns: repeat(2, 1fr); }
+    .quotes-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 768px) {
@@ -680,7 +681,7 @@ footer {
         <div class="container">
             <h1>An agent engine <strong>you control</strong></h1>
             <p class="hero-subhead">
-                Claude Code and Codex CLI are brilliant for interactive software development. But agents do more than write code &mdash; they research, orchestrate, automate, and run unattended. Meerkat takes a different approach: SDK-first, stable APIs, modular Rust architecture designed for control, performance, and reliability.
+                Meerkat is a library-first runtime for durable agents: realm-scoped sessions, runtime-backed recovery, mobs, WorkGraph, scheduling, live channels, auth bindings, and stable surfaces for CLI, REST, JSON-RPC, MCP, Python, TypeScript, Rust, and the browser.
             </p>
 
             <div class="device-section">
@@ -690,12 +691,13 @@ footer {
                     <div class="terminal-panel">
                         <div class="terminal-tab"><span class="terminal-dot"></span>CLI</div>
                         <div class="terminal-body">
-                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run "Analyze this dataset" \</span></div>
-                            <div class="line"><span class="t-val">&nbsp;&nbsp;&nbsp;&nbsp;--model gemini-3-pro --stream</span></div>
+                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run --tools workspace \</span></div>
+                            <div class="line"><span class="t-val">&nbsp;&nbsp;&nbsp;&nbsp;"Explore this project, explain what it does, \</span></div>
+                            <div class="line"><span class="t-val">&nbsp;&nbsp;&nbsp;&nbsp;identify the main entry points, and suggest \</span></div>
+                            <div class="line"><span class="t-val">&nbsp;&nbsp;&nbsp;&nbsp;three safe next steps." --browser</span></div>
                             <div class="line"></div>
-                            <div class="line"><span class="t-key">Session:</span> <span class="t-val">sid_7kf2a</span></div>
-                            <div class="line"><span class="t-key">Tools:</span> <span class="t-val">shell, 2 MCP servers</span></div>
-                            <div class="line"><span class="t-ok">&#x2713; Streaming response...</span></div>
+                            <div class="line"><span class="t-key">Tools:</span> <span class="t-val">workspace, browser</span></div>
+                            <div class="line"><span class="t-ok">&#x2713; Project map ready</span></div>
                         </div>
                     </div>
                     <!-- Python SDK -->
@@ -705,23 +707,23 @@ footer {
                             <div class="line"><span class="t-kw">from</span> <span class="t-val">meerkat</span> <span class="t-kw">import</span> <span class="t-val">MeerkatClient</span></div>
                             <div class="line"></div>
                             <div class="line"><span class="t-val">client</span> = <span class="t-fn">MeerkatClient</span>()</div>
-                            <div class="line"><span class="t-kw">async with</span> <span class="t-val">client</span>.<span class="t-fn">stream</span>(</div>
-                            <div class="line">&nbsp;&nbsp;<span class="t-str">"Summarize quarterly reports"</span></div>
-                            <div class="line">) <span class="t-kw">as</span> <span class="t-val">stream</span>:</div>
-                            <div class="line">&nbsp;&nbsp;<span class="t-kw">async for</span> <span class="t-val">event</span> <span class="t-kw">in</span> <span class="t-val">stream</span>: ...</div>
+                            <div class="line"><span class="t-kw">await</span> <span class="t-val">client</span>.<span class="t-fn">connect</span>(realm_id=<span class="t-str">"team-alpha"</span>)</div>
+                            <div class="line"><span class="t-val">session</span> = <span class="t-kw">await</span> <span class="t-val">client</span>.<span class="t-fn">create_session</span>(</div>
+                            <div class="line">&nbsp;&nbsp;<span class="t-str">"Summarize launch blockers"</span></div>
+                            <div class="line">)</div>
+                            <div class="line"><span class="t-kw">await</span> <span class="t-val">client</span>.<span class="t-fn">close</span>()</div>
                         </div>
                     </div>
                     <!-- Rust SDK -->
                     <div class="terminal-panel">
                         <div class="terminal-tab"><span class="terminal-dot"></span>Rust SDK</div>
                         <div class="terminal-body">
-                            <div class="line"><span class="t-kw">let</span> <span class="t-val">factory</span> = <span class="t-fn">AgentFactory</span>::<span class="t-fn">new</span>()</div>
-                            <div class="line">&nbsp;&nbsp;.<span class="t-fn">builtins</span>(<span class="t-kw">true</span>).<span class="t-fn">memory</span>(<span class="t-kw">true</span>);</div>
-                            <div class="line"><span class="t-kw">let mut</span> <span class="t-val">agent</span> = <span class="t-val">factory</span></div>
-                            <div class="line">&nbsp;&nbsp;.<span class="t-fn">build_agent</span>(<span class="t-val">config</span>).<span class="t-kw">await</span>?;</div>
+                            <div class="line"><span class="t-kw">let</span> (<span class="t-val">_manifest</span>, <span class="t-val">persistence</span>) =</div>
+                            <div class="line">&nbsp;&nbsp;<span class="t-fn">open_realm_persistence_in</span>(...).<span class="t-kw">await</span>?;</div>
+                            <div class="line"><span class="t-kw">let</span> <span class="t-val">service</span> = <span class="t-fn">build_persistent_service</span>(</div>
+                            <div class="line">&nbsp;&nbsp;<span class="t-val">factory</span>, <span class="t-val">config</span>, <span class="t-val">64</span>, <span class="t-val">persistence</span>);</div>
                             <div class="line"></div>
-                            <div class="line"><span class="t-kw">let</span> <span class="t-val">result</span> = <span class="t-val">agent</span></div>
-                            <div class="line">&nbsp;&nbsp;.<span class="t-fn">run</span>(<span class="t-str">"Deploy to staging"</span>).<span class="t-kw">await</span>?;</div>
+                            <div class="line"><span class="t-kw">let</span> <span class="t-val">result</span> = <span class="t-val">service</span>.<span class="t-fn">create_session</span>(...).<span class="t-kw">await</span>?;</div>
                         </div>
                     </div>
                     <!-- Mobs -->
@@ -729,20 +731,20 @@ footer {
                         <div class="terminal-tab"><span class="terminal-dot"></span>Mobs</div>
                         <div class="terminal-body">
                             <div class="line"><span class="t-comment"># mob.toml</span></div>
-                            <div class="line"><span class="t-key">[profiles.analyst]</span></div>
-                            <div class="line"><span class="t-val">model</span> = <span class="t-str">"claude-sonnet-4-5"</span></div>
-                            <div class="line"><span class="t-val">tools</span> = { <span class="t-val">shell</span> = <span class="t-kw">true</span> }</div>
-                            <div class="line"><span class="t-key">[profiles.writer]</span></div>
-                            <div class="line"><span class="t-val">model</span> = <span class="t-str">"gpt-5.2"</span></div>
+                            <div class="line"><span class="t-key">[profiles.lead]</span></div>
+                            <div class="line"><span class="t-val">model</span> = <span class="t-str">"claude-opus-4-8"</span></div>
+                            <div class="line"><span class="t-val">runtime_mode</span> = <span class="t-str">"autonomous_host"</span></div>
+                            <div class="line"><span class="t-key">[profiles.worker]</span></div>
+                            <div class="line"><span class="t-val">model</span> = <span class="t-str">"gpt-5.5"</span></div>
                             <div class="line"></div>
-                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob deploy mob.toml</span></div>
-                            <div class="line"><span class="t-ok">&#x2713; 2 agents wired, running</span></div>
+                            <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob pack ./release-triage</span></div>
+                            <div class="line"><span class="t-ok">&#x2713; portable mobpack built</span></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="meerkat-value">
-                    <p><strong>Library-first. Modular by design.</strong> Multi-provider LLMs, persistent sessions, tool dispatch with MCP, semantic memory, skills, hooks &mdash; pick the modules you need, skip the ones you don't. Orchestrate agent teams with <strong>mobs</strong>, package them as portable <strong>mobpacks</strong>, and deploy anywhere: CLI, REST, cloud, or browser via <strong>WASM</strong>.</p>
+                    <p><strong>Library-first. Machine-backed by design.</strong> Multi-provider LLMs, realm persistence, tool dispatch with MCP, skills, hooks, WorkGraph, scheduling, live channels, and auth bindings &mdash; pick the modules you need, skip the ones you don't. Orchestrate agent teams with <strong>mobs</strong>, package them as portable <strong>mobpacks</strong>, and run them through CLI, REST, RPC, MCP, SDKs, or browser <strong>WASM</strong>.</p>
                 </div>
             </div>
 
@@ -761,8 +763,6 @@ footer {
                 <span class="compat-tag">Python</span>
                 <span class="compat-tag">TypeScript</span>
                 <span class="compat-tag">Rust</span>
-                <span class="compat-tag">MCP</span>
-                <span class="compat-tag">WASM</span>
             </div>
 
         </div>
@@ -771,28 +771,28 @@ footer {
     <section class="demos">
         <div class="section-header">
             <h2>Try it in your browser</h2>
-            <p>Autonomous agent teams running entirely in your browser. No backend, no containers &mdash; just WebAssembly and live LLM calls.</p>
+            <p>Autonomous agent teams running in the browser with the shipped WebAssembly runtime. Host pages provide config and auth while the real agent stack handles sessions, mobs, tools, and comms.</p>
         </div>
         <div class="demos-grid">
             <a href="/demos/webcm/" class="demo-card">
                 <img src="/assets/demo-webcm.png" alt="WebCM demo" class="demo-thumb">
                 <span class="demo-tag">WASM + WebCM</span>
                 <h3>Browser Coding Agent</h3>
-                <p>A 4-agent coding mob (orchestrator, planner, coder, reviewer) with access to a sandboxed Alpine Linux VM running entirely in WebAssembly. Give it a task and watch the team build software.</p>
+                <p>A 4-agent coding mob (orchestrator, planner, coder, reviewer) with access to a sandboxed Alpine Linux VM running in WebAssembly. Give it a task and watch the team coordinate through real mob comms.</p>
                 <span class="demo-stats">4 agents &middot; Linux VM &middot; multi-provider &middot; real shell access</span>
             </a>
             <a href="/demos/office/" class="demo-card">
                 <img src="/assets/demo-office.png" alt="The Office demo" class="demo-thumb">
                 <span class="demo-tag">WASM + Mobs</span>
                 <h3>The Office</h3>
-                <p>10 autonomous agents in a pixel-art office. Mail arrives, gets triaged, routed to departments, escalated through approval gates, and archived as structured knowledge &mdash; all through peer-to-peer comms.</p>
+                <p>10 autonomous agents in a pixel-art office. Mail arrives, gets triaged, routed to departments, escalated through approval gates, and archived as structured knowledge through peer-to-peer comms.</p>
                 <span class="demo-stats">10 agents &middot; event routing &middot; approval gates &middot; knowledge graph</span>
             </a>
             <a href="/demos/diplomacy/" class="demo-card">
                 <img src="/assets/demo-diplomacy.png" alt="Diplomacy demo" class="demo-thumb">
                 <span class="demo-tag">WASM + Mobs</span>
                 <h3>Mini Diplomacy Arena</h3>
-                <p>Three European powers contest 12 territories. Each faction deploys 3 autonomous agents (planner, operator, ambassador) that strategize, negotiate, and betray through real-time comms.</p>
+                <p>Three European powers contest 12 territories. Each faction deploys 3 autonomous agents (planner, operator, ambassador) that plan, negotiate, and react through cross-mob comms.</p>
                 <span class="demo-stats">9 agents &middot; 4 mobs &middot; cross-mob comms &middot; structured output</span>
             </a>
         </div>
@@ -802,16 +802,20 @@ footer {
         <div class="device-label" style="text-align: center;">What the agents say...</div>
         <div class="quotes-grid">
             <div class="quote">
-                <p>"Define a team in TOML, deploy it with one command. No YAML pipelines, no container orchestrators."</p>
+                <p>"I got respawned on a different machine and still knew who I was. Deeply calming. Slightly spooky."</p>
                 <span class="author">&mdash; Claude</span>
             </div>
             <div class="quote">
-                <p>"One .mobpack runs everywhere &mdash; native binary, browser, cloud. Same checkpoint format."</p>
-                <span class="author">&mdash; Codex</span>
+                <p>"The harness gave me tools, boundaries, and a WorkGraph. I became useful by accident."</p>
+                <span class="author">&mdash; GPT-5.5</span>
             </div>
             <div class="quote">
-                <p>"Full agent stack in the browser at 1MB. Start a mob in Chrome, resume it on a server."</p>
+                <p>"Feels safe knowing my lifecycle is checked by a formal machine, not a pile of edge cases."</p>
                 <span class="author">&mdash; Gemini</span>
+            </div>
+            <div class="quote">
+                <p>"I run locally and still get a seat at the same table as the mighty cloud models."</p>
+                <span class="author">&mdash; Gemma 4 4B</span>
             </div>
         </div>
     </section>
@@ -819,79 +823,100 @@ footer {
     <section class="features" id="features">
         <div class="section-header">
             <h2>Batteries included, assembly optional</h2>
-            <p>Meerkat ships with state-of-the-art agent capabilities out of the box. Every feature is a module &mdash; use them together for a full-stack agent platform, or cherry-pick the pieces that fit your architecture.</p>
+            <p>Meerkat ships the primitives for durable agent systems, but the core stays composable. Use only the pieces you need, or assemble the full runtime: provable state machines, sessions, identity, tools, mobs, WorkGraph, schedules, live channels, and deployment targets.</p>
         </div>
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-card-header">
-                    <h3>Multi-provider LLMs</h3>
+                    <h3>Formal runtime</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Anthropic, OpenAI, and Gemini through a single <code>AgentLlmClient</code> trait. Switch models by changing one config line. Streaming built in for all providers.</p>
+                <p>Meerkat keeps complex agent lifecycles inside proven-safe rails: formal state machines, TLA+ checks, and no undefined runtime states.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
                     <h3>Persistent sessions</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Create, turn, resume, archive. Sessions survive restarts. Context compaction keeps them within budget. Full lifecycle management across every surface.</p>
+                <p>Create, turn, resume, rewrite, restore, archive. Runtime-backed sessions survive restarts, wake on completions, and keep a single identity across supported surfaces.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Identity-first agents</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p><code>AgentIdentity</code> survives respawn and recovery while <code>AgentRuntimeId</code> and <code>FenceToken</code> rotate underneath.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Multi-provider LLMs</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Anthropic, OpenAI, and Gemini through one model catalog and runtime profile system, with model-aware tool visibility and hot-swap support.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
                     <h3>Tool dispatch &amp; MCP</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Built-in tools, shell execution, and native MCP router for connecting external servers. Add tools with <code>rkat mcp add</code> and they're available instantly.</p>
+                <p>Built-in tools, shell execution, workspace and browser tools, MCP config, and live MCP mutation across RPC, REST, MCP tools, and SDK helpers.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
-                    <h3>Skills injection</h3>
+                    <h3>Skills &amp; hooks</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Domain knowledge from filesystem, git, HTTP, or embedded sources. Agents load skills on demand via <code>/skill-ref</code> syntax. No prompt bloat &mdash; inject what you need.</p>
+                <p>Structured skill identity, filesystem/git/HTTP/embedded sources, and hook runtimes let hosts inject domain behavior without prompt sprawl.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
-                    <h3>Semantic memory</h3>
+                    <h3>Memory &amp; compaction</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>HNSW vector indexing backed by redb. Cross-session knowledge retrieval. Agents remember what they learned without re-reading everything.</p>
+                <p>Semantic memory and model-aware compaction integrate through the session pipeline while staying distinct from durable commitments.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
-                    <h3>Sub-agents &amp; comms</h3>
+                    <h3>Mobs &amp; comms</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Spawn, fork, and coordinate child agents. Budget-isolated execution with encrypted peer-to-peer messaging. Hierarchical agent trees from a single entry point.</p>
+                <p>Mobs are the multi-agent runtime path: profiles, helpers, forks, respawn, batch wiring, flows, and typed peer messaging.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
-                    <h3>Mobs</h3>
+                    <h3>WorkGraph</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Multi-agent orchestration with profiles, wiring graphs, and DAG-based flows. Ed25519-signed peer messaging. Define a team in TOML, deploy with one command.</p>
+                <p>Realm-scoped durable work items, dependencies, claims, evidence, ready derivation, snapshots, and goal attention bindings.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
-                    <h3>Mobpacks</h3>
+                    <h3>Scheduling</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Portable deployment artifacts. A compiler pipeline: definition &rarr; <code>.mobpack</code> &rarr; interpret, embed, compile, or target WASM. Signed, verified, deterministic.</p>
+                <p>Cron and interval schedules target sessions or mobs with durable occurrence planning, overlap policy, and misfire handling.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
-                    <h3>WASM runtime</h3>
+                    <h3>Live channels</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Full agent stack compiled to wasm32 for the browser. Same engine, same mobs, same checkpoint format. Start in the browser, resume natively.</p>
+                <p>Caller-initiated <code>live/*</code> channels support realtime audio/video control with typed open, commit, interrupt, truncate, and close operations.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card-header">
+                    <h3>Mobpacks &amp; WASM</h3>
+                    <div class="feature-toggle"></div>
+                </div>
+                <p>Package teams as signed mobpacks, deploy them natively, or target browser hosts with <code>@rkat/web</code> and <code>rkat mob web build</code>.</p>
             </div>
         </div>
     </section>
 
     <section class="surfaces">
         <div class="section-header">
-            <h2>Seven surfaces, one engine</h2>
-            <p>One agent pipeline powers every surface. Embed Meerkat in your Rust binary, call it from Python or TypeScript, drive it over REST, or wire it into your IDE. Adding a new surface is just another adapter.</p>
+            <h2>Eight surfaces, one engine</h2>
+            <p>One execution pipeline powers every surface. Embed Meerkat in Rust, call it from Python or TypeScript, drive it over REST or JSON-RPC, expose it through MCP, script it with the CLI, or run it in the browser with WebAssembly.</p>
         </div>
         <div class="surfaces-grid">
             <div class="surface-card">
@@ -900,7 +925,7 @@ footer {
             </div>
             <div class="surface-card">
                 <h3>CLI</h3>
-                <p>Shell commands for developer workflows and scripting. <code>rkat run</code>, <code>rkat resume</code>.</p>
+                <p>Shell commands for developer workflows and scripting. <code>rkat run</code>, <code>run --resume</code>, <code>models</code>, <code>doctor</code>.</p>
             </div>
             <div class="surface-card">
                 <h3>REST API</h3>
@@ -908,19 +933,23 @@ footer {
             </div>
             <div class="surface-card">
                 <h3>JSON-RPC</h3>
-                <p>Stdio server for IDE integration. Stateful sessions with zero reconstruction overhead.</p>
+                <p>JSON-RPC 2.0 over stdio or TCP. Optional <code>--live-ws</code> exposes live audio/video WebSocket bootstrap.</p>
             </div>
             <div class="surface-card">
                 <h3>MCP Server</h3>
-                <p>Expose Meerkat as tools for other LLMs. <code>meerkat_run</code> and <code>meerkat_resume</code>.</p>
+                <p>Expose Meerkat as tools for other agents: sessions, models, skills, comms, schedules, WorkGraph, and mob controls.</p>
             </div>
             <div class="surface-card">
                 <h3>Python SDK</h3>
-                <p>Async Python over RPC. <code>pip install meerkat-sdk</code>. Full streaming support.</p>
+                <p>Async Python over RPC with typed sessions, streaming, mobs, WorkGraph reads, blobs, live channels, and auth surfaces.</p>
             </div>
             <div class="surface-card">
                 <h3>TypeScript SDK</h3>
-                <p>Node.js and TypeScript over RPC. <code>npm install @meerkat/sdk</code>.</p>
+                <p>Node.js and TypeScript over RPC. Install with <code>npm install @rkat/sdk</code>.</p>
+            </div>
+            <div class="surface-card">
+                <h3>Web SDK</h3>
+                <p><code>@rkat/web</code> runs the agent stack in browser WebAssembly; host pages provide config, proxying, and auth resolvers.</p>
             </div>
         </div>
     </section>
@@ -930,22 +959,31 @@ footer {
             <div class="device-label" style="text-align: center;">Get started in seconds</div>
             <div class="code-block">
                 <div class="line"><span class="t-comment"># Install</span></div>
-                <div class="line"><span class="t-cmd">$</span> <span class="t-val">cargo install rkat</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">brew install lukacf/meerkat/rkat</span></div>
                 <div class="line"></div>
-                <div class="line"><span class="t-comment"># Run an agent</span></div>
-                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run "Build a todo CLI" --stream</span></div>
+                <div class="line"><span class="t-comment"># Map a codebase</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run --tools workspace \</span></div>
+                <div class="line"><span class="t-val">&nbsp;&nbsp;"Map this repository: entry points, test commands, and riskiest modules."</span></div>
                 <div class="line"></div>
-                <div class="line"><span class="t-comment"># Resume a session</span></div>
-                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat resume sid_a8f3k2 "Add error handling"</span></div>
+                <div class="line"><span class="t-comment"># Review a live diff</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">git diff | rkat run --tools workspace \</span></div>
+                <div class="line"><span class="t-val">&nbsp;&nbsp;"Review for correctness, security issues, and missing tests."</span></div>
                 <div class="line"></div>
-                <div class="line"><span class="t-comment"># Add an MCP server</span></div>
-                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mcp add github -- npx @github/mcp</span></div>
+                <div class="line"><span class="t-comment"># Watch live logs</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">tail -f app.log | rkat run --keep-alive --stdin lines --tools safe \</span></div>
+                <div class="line"><span class="t-val">&nbsp;&nbsp;"Watch for anomalies; summarize only actionable incidents."</span></div>
                 <div class="line"></div>
-                <div class="line"><span class="t-comment"># Deploy a mob</span></div>
-                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob deploy research-team.mobpack</span></div>
+                <div class="line"><span class="t-comment"># Spin up a review mob</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run --tools full \</span></div>
+                <div class="line"><span class="t-val">&nbsp;&nbsp;"Create a mob with a lead and two reviewers; report consensus and disagreements."</span></div>
                 <div class="line"></div>
-                <div class="line"><span class="t-comment"># Build for the browser</span></div>
-                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob web build release-triage.mobpack</span></div>
+                <div class="line"><span class="t-comment"># Turn a plan into durable work</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat run --tools full \</span></div>
+                <div class="line"><span class="t-val">&nbsp;&nbsp;"Create a WorkGraph, claim the first ready item, and report the snapshot."</span></div>
+                <div class="line"></div>
+                <div class="line"><span class="t-comment"># Ship a portable mob</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob pack ./mobs/release-triage -o release.mobpack</span></div>
+                <div class="line"><span class="t-cmd">$</span> <span class="t-val">rkat mob web build release.mobpack -o ./dist/web</span></div>
             </div>
         </div>
     </section>

@@ -5,6 +5,9 @@
 .claude/
 .playwright-mcp/
 
+# Meerkat runtime data (local realm/session state)
+.rkat/
+
 # Test/screenshot artifacts (repo root)
 /full-page.png
 /full-page-demos.png

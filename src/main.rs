@@ -2,6 +2,7 @@ use askama::Template;
 use axum::{
     body::Body,
     extract::{Path, Request, State},
+    http::StatusCode,
     middleware,
     middleware::Next,
     response::{Html, IntoResponse, Response},
@@ -25,6 +26,10 @@ const PROVIDERS: &[(&str, &str)] = &[
 
 fn provider_target(name: &str) -> Option<&'static str> {
     PROVIDERS.iter().find(|(n, _)| *n == name).map(|(_, target)| *target)
+}
+
+fn first_env(names: &[&str]) -> Option<String> {
+    names.iter().find_map(|name| std::env::var(name).ok())
 }
 
 // ── State ────────────────────────────────────────────────────────────────────
@@ -510,9 +515,14 @@ async fn main() {
     let port = std::env::var("PORT").unwrap_or_else(|_| "3001".to_string());
 
     let api_keys = ApiKeys {
-        anthropic: std::env::var("ANTHROPIC_API_KEY").ok(),
-        openai: std::env::var("OPENAI_API_KEY").ok(),
-        gemini: std::env::var("GEMINI_API_KEY").ok(),
+        anthropic: first_env(&["RKAT_ANTHROPIC_API_KEY", "ANTHROPIC_API_KEY"]),
+        openai: first_env(&["RKAT_OPENAI_API_KEY", "OPENAI_API_KEY"]),
+        gemini: first_env(&[
+            "RKAT_GEMINI_API_KEY",
+            "GEMINI_API_KEY",
+            "RKAT_GOOGLE_API_KEY",
+            "GOOGLE_API_KEY",
+        ]),
     };
 
     let proxy_url = std::env::var("PROXY_URL").unwrap_or_else(|_| {
@@ -544,6 +554,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(home))
+        .route("/favicon.ico", get(|| async { StatusCode::NO_CONTENT }))
         .route("/demos/diplomacy", get(demo_diplomacy))
         .route("/demos/diplomacy/", get(demo_diplomacy))
         .route("/demos/webcm", get(demo_webcm))

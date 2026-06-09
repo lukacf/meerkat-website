@@ -1,2 +1,11 @@
 /target
 .DS_Store
+
+# Local tooling
+.claude/
+.playwright-mcp/
+
+# Test/screenshot artifacts (repo root)
+/full-page.png
+/full-page-demos.png
+/demo-diplomacy-wrapper.png

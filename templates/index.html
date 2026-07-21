@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meerkat — Runtime for agent systems</title>
-    <meta name="description" content="Library-first agent runtime with realm-scoped sessions, mobs, WorkGraph, scheduling, live channels, auth bindings, and CLI, REST, RPC, MCP, SDK, and WASM surfaces.">
+    <meta name="description" content="Library-first agent runtime with durable sessions, identity-first mobs, WorkGraph, scheduling, live channels, and MobKit for application-facing operations.">
     <link rel="icon" type="image/png" href="/assets/favicon.png">
     <!-- Open Graph -->
     <meta property="og:title" content="Meerkat — Runtime for agent systems">
-    <meta property="og:description" content="Durable sessions, mobs, WorkGraph, scheduling, live channels, and every host surface on one shared runtime.">
+    <meta property="og:description" content="Durable sessions, identity-first mobs, WorkGraph, live channels, and MobKit on one shared runtime.">
     <meta property="og:image" content="https://rkat.ai/assets/og-image.png">
     <meta property="og:url" content="https://rkat.ai">
     <meta property="og:type" content="website">
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Meerkat — Runtime for agent systems">
-    <meta name="twitter:description" content="Durable sessions, mobs, WorkGraph, scheduling, live channels, and every host surface on one shared runtime.">
+    <meta name="twitter:description" content="Durable sessions, identity-first mobs, WorkGraph, live channels, and MobKit on one shared runtime.">
     <meta name="twitter:image" content="https://rkat.ai/assets/og-image.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -475,6 +475,132 @@ header {
     font-family: 'SF Mono', Monaco, 'Consolas', monospace;
 }
 
+/* === MOBKIT === */
+.mobkit {
+    padding: 0 32px 64px;
+    background: var(--cream);
+}
+
+.mobkit-panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+    gap: 36px 40px;
+    max-width: 896px;
+    margin: 0 auto;
+    padding: 40px;
+    color: var(--white);
+    background: #1a1a1a;
+    border: 2.5px solid #1a1a1a;
+    border-radius: 16px 16px 16px 24px;
+    box-shadow:
+        6px 6px 0 0 var(--accent),
+        6px 6px 0 2px #1a1a1a;
+}
+
+.mobkit-kicker {
+    display: block;
+    margin-bottom: 12px;
+    color: #d4785e;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.mobkit-copy h2 {
+    max-width: 520px;
+    margin-bottom: 16px;
+    font-size: 32px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.mobkit-copy p {
+    max-width: 560px;
+    margin-bottom: 24px;
+    color: var(--gray-400);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.mobkit-copy .btn {
+    display: inline-block;
+}
+
+.mobkit-previews {
+    align-self: start;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.mobkit-preview {
+    overflow: hidden;
+    background: #f5f1eb;
+    border: 1px solid #4a4a4a;
+    border-radius: 10px;
+}
+
+.mobkit-preview:first-child {
+    grid-column: 1 / -1;
+}
+
+.mobkit-preview img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    object-position: top;
+}
+
+.mobkit-preview figcaption {
+    padding: 9px 12px;
+    color: var(--gray-400);
+    background: #252525;
+    border-top: 1px solid #3a3a3a;
+    font-family: 'SF Mono', Monaco, 'Consolas', monospace;
+    font-size: 11px;
+}
+
+.mobkit-layers {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid #3a3a3a;
+    border-bottom: 1px solid #3a3a3a;
+}
+
+.mobkit-layer {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 12px;
+    padding: 14px 0;
+    border-right: 1px solid #3a3a3a;
+}
+
+.mobkit-layer:last-child {
+    border-right: 0;
+}
+
+.mobkit-layer code {
+    color: #d4785e;
+    font-family: 'SF Mono', Monaco, 'Consolas', monospace;
+    font-size: 11px;
+}
+
+.mobkit-layer strong {
+    display: block;
+    margin-bottom: 3px;
+    font-size: 14px;
+}
+
+.mobkit-layer span {
+    display: block;
+    color: var(--gray-400);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
 /* === DEMOS === */
 .demos {
     padding: 64px 0;
@@ -485,7 +611,8 @@ header {
 
 .demos-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
     gap: 20px;
     max-width: 960px;
     margin: 0 auto;
@@ -658,11 +785,22 @@ footer {
 }
 
 @media (max-width: 768px) {
+    .header-inner { padding: 0 24px; }
+    .header-links { gap: 18px; }
     .hero h1 { font-size: 32px; }
     .terminal-grid { grid-template-columns: 1fr; }
     .quotes-grid { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: 1fr; }
     .surfaces-grid { grid-template-columns: 1fr; }
+    .mobkit { padding-left: 24px; padding-right: 24px; }
+    .mobkit-panel { grid-template-columns: 1fr; gap: 32px; padding: 28px; }
+    .mobkit-copy h2 { font-size: 28px; }
+    .mobkit-previews { grid-template-columns: 1fr; }
+    .mobkit-preview:first-child { grid-column: auto; }
+    .mobkit-preview img { aspect-ratio: auto; object-fit: initial; }
+    .mobkit-layers { display: block; }
+    .mobkit-layer { border-right: 0; border-bottom: 1px solid #3a3a3a; }
+    .mobkit-layer:last-child { border-bottom: 0; }
 }
     </style>
 </head>
@@ -671,6 +809,7 @@ footer {
         <div class="header-inner">
             <a href="/" class="logo"><img src="/assets/meerkat-transparent.png" alt="" class="logo-icon"><span class="logo-text">mee<span class="logo-accent">rkat</span></span></a>
             <nav class="header-links">
+                <a href="#mobkit">MobKit</a>
                 <a href="https://docs.rkat.ai">Docs</a>
                 <a href="https://github.com/lukacf/meerkat">GitHub</a>
             </nav>
@@ -681,7 +820,7 @@ footer {
         <div class="container">
             <h1>An agent engine <strong>you control</strong></h1>
             <p class="hero-subhead">
-                Meerkat is a library-first runtime for durable agents: realm-scoped sessions, runtime-backed recovery, mobs, WorkGraph, scheduling, live channels, auth bindings, and stable surfaces for CLI, REST, JSON-RPC, MCP, Python, TypeScript, Rust, and the browser.
+                Meerkat is a library-first runtime for durable agents: realm-scoped sessions, runtime-backed recovery, identity-first mobs, WorkGraph, scheduling, live channels, auth bindings, and stable surfaces for CLI, REST, JSON-RPC, MCP, Python, TypeScript, Rust, and the browser.
             </p>
 
             <div class="device-section">
@@ -744,7 +883,7 @@ footer {
                 </div>
 
                 <div class="meerkat-value">
-                    <p><strong>Library-first. Machine-backed by design.</strong> Multi-provider LLMs, realm persistence, tool dispatch with MCP, skills, hooks, WorkGraph, scheduling, live channels, and auth bindings &mdash; pick the modules you need, skip the ones you don't. Orchestrate agent teams with <strong>mobs</strong>, package them as portable <strong>mobpacks</strong>, and run them through CLI, REST, RPC, MCP, SDKs, or browser <strong>WASM</strong>.</p>
+                    <p><strong>Library-first. Machine-backed by design.</strong> Multi-provider LLMs, realm persistence, tool dispatch with MCP, skills, hooks, WorkGraph, scheduling, live channels, and auth bindings &mdash; pick the modules you need, skip the ones you don't. Orchestrate identity-first teams with <strong>mobs</strong>, package them as portable <strong>mobpacks</strong>, and add <strong>MobKit</strong> when an application needs a gateway, SDKs, operations, and a console.</p>
                 </div>
             </div>
 
@@ -774,25 +913,25 @@ footer {
             <p>Autonomous agent teams running in the browser with the shipped WebAssembly runtime. Host pages provide config and auth while the real agent stack handles sessions, mobs, tools, and comms.</p>
         </div>
         <div class="demos-grid">
-            <a href="/demos/webcm/" class="demo-card">
-                <img src="/assets/demo-webcm.png" alt="WebCM demo" class="demo-thumb">
-                <span class="demo-tag">WASM + WebCM</span>
-                <h3>Browser Coding Agent</h3>
-                <p>A 4-agent coding mob (orchestrator, planner, coder, reviewer) with access to a sandboxed Alpine Linux VM running in WebAssembly. Give it a task and watch the team coordinate through real mob comms.</p>
-                <span class="demo-stats">4 agents &middot; Linux VM &middot; multi-provider &middot; real shell access</span>
-            </a>
             <a href="/demos/office/" class="demo-card">
                 <img src="/assets/demo-office.png" alt="The Office demo" class="demo-thumb">
                 <span class="demo-tag">WASM + Mobs</span>
                 <h3>The Office</h3>
-                <p>10 autonomous agents in a pixel-art office. Mail arrives, gets triaged, routed to departments, escalated through approval gates, and archived as structured knowledge through peer-to-peer comms.</p>
+                <p>Ten agents triage, route, approve, and archive incoming mail through peer-to-peer comms.</p>
                 <span class="demo-stats">10 agents &middot; event routing &middot; approval gates &middot; knowledge graph</span>
+            </a>
+            <a href="/demos/webcm/" class="demo-card">
+                <img src="/assets/demo-webcm.png" alt="WebCM demo" class="demo-thumb">
+                <span class="demo-tag">WASM + WebCM</span>
+                <h3>Browser Coding Agent</h3>
+                <p>A four-agent mob plans, codes, and reviews inside a sandboxed WebAssembly Linux VM.</p>
+                <span class="demo-stats">4 agents &middot; Linux VM &middot; multi-provider &middot; real shell access</span>
             </a>
             <a href="/demos/diplomacy/" class="demo-card">
                 <img src="/assets/demo-diplomacy.png" alt="Diplomacy demo" class="demo-thumb">
                 <span class="demo-tag">WASM + Mobs</span>
                 <h3>Mini Diplomacy Arena</h3>
-                <p>Three European powers contest 12 territories. Each faction deploys 3 autonomous agents (planner, operator, ambassador) that plan, negotiate, and react through cross-mob comms.</p>
+                <p>Three factions plan, negotiate, and react through cross-mob comms across 12 territories.</p>
                 <span class="demo-stats">9 agents &middot; 4 mobs &middot; cross-mob comms &middot; structured output</span>
             </a>
         </div>
@@ -852,14 +991,14 @@ footer {
                     <h3>Multi-provider LLMs</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Anthropic, OpenAI, and Gemini through one model catalog and runtime profile system, with model-aware tool visibility and hot-swap support.</p>
+                <p>Anthropic, OpenAI, Azure OpenAI, Gemini, and self-hosted models through one streaming interface and model catalog.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
                     <h3>Tool dispatch &amp; MCP</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Built-in tools, shell execution, workspace and browser tools, MCP config, and live MCP mutation across RPC, REST, MCP tools, and SDK helpers.</p>
+                <p>Built-in tools, shell execution, workspace and browser tools, MCP config, and enforced call-level access policy across host surfaces.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
@@ -873,14 +1012,14 @@ footer {
                     <h3>Memory &amp; compaction</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Semantic memory and model-aware compaction integrate through the session pipeline while staying distinct from durable commitments.</p>
+                <p>Scoped semantic memory, typed indexing exclusions, model-aware compaction, and host-supplied curators integrate through the session pipeline.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
                     <h3>Mobs &amp; comms</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Mobs are the multi-agent runtime path: profiles, helpers, forks, respawn, batch wiring, flows, and typed peer messaging.</p>
+                <p>Mobs are the multi-agent runtime path: stable identities, respawn-safe bindings, helpers, flows, batch wiring, and typed peer messaging.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
@@ -894,7 +1033,7 @@ footer {
                     <h3>Scheduling</h3>
                     <div class="feature-toggle"></div>
                 </div>
-                <p>Cron and interval schedules target sessions or mobs with durable occurrence planning, overlap policy, and misfire handling.</p>
+                <p>Durable schedules target sessions, mobs, identities, or host runnables with overlap policy and misfire handling.</p>
             </div>
             <div class="feature-card">
                 <div class="feature-card-header">
@@ -909,6 +1048,45 @@ footer {
                     <div class="feature-toggle"></div>
                 </div>
                 <p>Package teams as signed mobpacks, deploy them natively, or target browser hosts with <code>@rkat/web</code> and <code>rkat mob web build</code>.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mobkit" id="mobkit" aria-labelledby="mobkit-title">
+        <div class="mobkit-panel">
+            <div class="mobkit-copy">
+                <span class="mobkit-kicker">Built on identity-first Meerkat mobs</span>
+                <h2 id="mobkit-title">MobKit makes the runtime application-ready.</h2>
+                <p>Boot, expose, observe, and operate a Meerkat mob without hand-wiring every primitive. MobKit adds a unified builder and gateway, typed Python and TypeScript SDKs, operational modules, and a console whose roster and timeline remain projections of runtime truth.</p>
+                <a href="https://github.com/lukacf/meerkat-mobkit" class="btn btn-outline">Explore MobKit</a>
+            </div>
+            <div class="mobkit-previews">
+                <figure class="mobkit-preview">
+                    <img src="/assets/mobkit-harborops.png" alt="HarborOps MobKit console showing a fleet roster, route-planning conversation, agent topology, and activity signals" loading="lazy">
+                    <figcaption>HarborOps · MobKit console</figcaption>
+                </figure>
+                <figure class="mobkit-preview">
+                    <img src="/assets/mobkit-meerkat-dev-app.png" alt="Meerkat Dev App showing trusted MobKit peers, WorkGraph execution, and agent status" loading="lazy">
+                    <figcaption>Meerkat Dev App · MobKit-powered agents</figcaption>
+                </figure>
+                <figure class="mobkit-preview">
+                    <img src="/assets/mobkit-flow-editor.png" alt="MobKit Flow Editor showing a repeat-until workflow with an adaptive layer and FlowMaster configuration" loading="lazy">
+                    <figcaption>MobKit Flow Editor · adaptive mob workflows</figcaption>
+                </figure>
+            </div>
+            <div class="mobkit-layers" aria-label="Meerkat and MobKit ownership">
+                <div class="mobkit-layer">
+                    <code>01</code>
+                    <div><strong>Meerkat</strong><span>Agent loop, sessions, tools, providers, and runtime control.</span></div>
+                </div>
+                <div class="mobkit-layer">
+                    <code>02</code>
+                    <div><strong>meerkat-mob</strong><span>Identity, membership, lifecycle, wiring, flows, and comms.</span></div>
+                </div>
+                <div class="mobkit-layer">
+                    <code>03</code>
+                    <div><strong>MobKit</strong><span>Bootstrap, gateway, SDKs, routing, delivery, gating, memory, and console.</span></div>
+                </div>
             </div>
         </div>
     </section>
@@ -993,6 +1171,7 @@ footer {
             <a href="/" class="footer-brand logo"><img src="/assets/meerkat-transparent.png" alt="" class="logo-icon"><span class="logo-text">mee<span class="logo-accent">rkat</span></span></a>
             <nav class="footer-links">
                 <a href="https://github.com/lukacf/meerkat">GitHub</a>
+                <a href="https://github.com/lukacf/meerkat-mobkit">MobKit</a>
                 <a href="https://docs.rkat.ai">Documentation</a>
             </nav>
         </div>
